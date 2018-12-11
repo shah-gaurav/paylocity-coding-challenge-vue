@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Paylocity.CodingChallenge.Entities;
+using Paylocity.CodingChallenge.Business.Code;
 
 namespace Paylocity.CodingChallenge.Business.Tests
 {
@@ -17,7 +18,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
             var discountRate = objectUnderTest.GetDiscountRate(testPerson);
 
             // Assert
-            Assert.IsTrue(discountRate == 0.0);
+            Assert.IsTrue(discountRate == Constants.ZERO_PERCENT_DISCOUNT_RATE);
         }
 
         [TestMethod]
@@ -31,7 +32,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
             var discountRate = objectUnderTest.GetDiscountRate(testPerson);
 
             // Assert
-            Assert.IsTrue(discountRate == 0.10);
+            Assert.IsTrue(discountRate == Constants.TEN_PERCENT_DISCOUNT_RATE);
         }
 
         [TestMethod]
@@ -45,7 +46,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
             var discountRate = objectUnderTest.GetDiscountRate(testPerson);
 
             // Assert
-            Assert.IsTrue(discountRate == 0.0);
+            Assert.IsTrue(discountRate == Constants.ZERO_PERCENT_DISCOUNT_RATE);
         }
 
         [TestMethod]
@@ -59,7 +60,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
             var discountRate = objectUnderTest.GetDiscountRate(testPerson);
 
             // Assert
-            Assert.IsTrue(discountRate == 0.0);
+            Assert.IsTrue(discountRate == Constants.ZERO_PERCENT_DISCOUNT_RATE);
         }
     }
 }

@@ -16,14 +16,14 @@ namespace Paylocity.CodingChallenge.Business
             _discountCalculator = discountCalculator;
         }
 
-        public double CalculateDeductionPerPaycheck(List<Person> people, int numberOfPaychecksPerYear)
+        public double CalculateDeductionPerPaycheck(List<Person> persons, int numberOfPaychecksPerYear)
         {
-            return CalculateDeductionPerAnnum(people) / numberOfPaychecksPerYear;
+            return CalculateDeductionPerAnnum(persons) / numberOfPaychecksPerYear;
         }
 
-        public double CalculateDeductionPerAnnum(List<Person> people)
+        public double CalculateDeductionPerAnnum(List<Person> persons)
         {
-            return people.Sum(person => CalculateDeductionWithDiscount(person));
+            return persons.Sum(person => CalculateDeductionWithDiscount(person));
         }
 
         public double CalculateDeductionWithDiscount(Person person)
