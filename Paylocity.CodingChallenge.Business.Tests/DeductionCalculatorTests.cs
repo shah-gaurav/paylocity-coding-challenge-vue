@@ -14,6 +14,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
     {
         private const double ANNUAL_RATE = 10.0;
         private const double DISCOUNT_RATE = 0.10;
+        private const double HUNDRED_PERCENT_DISCOUNT = 1.00;
         private const int NUMBER_OF_PAYCHECKS_PER_YEAR = 26;
 
         [TestMethod]
@@ -35,6 +36,28 @@ namespace Paylocity.CodingChallenge.Business.Tests
 
             // Assert
             var expectedAnnualRateWithDiscount = ANNUAL_RATE * (1 - DISCOUNT_RATE);
+            Assert.IsTrue(annualRatewithDiscount == expectedAnnualRateWithDiscount);
+        }
+
+        [TestMethod]
+        public void verify_100_percent_discount_calculation()
+        {
+            // Arrange
+            var testPerson = new Person() { Type = PersonType.Employee, Name = "ATestPerson" };
+
+            var annualDeductionRate = A.Fake<IAnnualDeductionRate>();
+            A.CallTo(() => annualDeductionRate.Get(testPerson.Type)).Returns(ANNUAL_RATE);
+
+            var discountCalculator = A.Fake<IDiscountCalculator>();
+            A.CallTo(() => discountCalculator.GetDiscountRate(testPerson)).Returns(HUNDRED_PERCENT_DISCOUNT);
+
+            var objectUnderTest = new DeductionCalculator(annualDeductionRate, discountCalculator);
+
+            // Act
+            var annualRatewithDiscount = objectUnderTest.CalculateDeductionWithDiscount(testPerson);
+
+            // Assert
+            var expectedAnnualRateWithDiscount = ANNUAL_RATE * (1 - HUNDRED_PERCENT_DISCOUNT);
             Assert.IsTrue(annualRatewithDiscount == expectedAnnualRateWithDiscount);
         }
 
