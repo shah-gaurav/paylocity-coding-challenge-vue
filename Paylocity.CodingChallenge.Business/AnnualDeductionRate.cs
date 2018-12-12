@@ -9,7 +9,7 @@ namespace Paylocity.CodingChallenge.Business
 {
     public class AnnualDeductionRate : IAnnualDeductionRate
     {
-        public double Get(PersonType personType)
+        public decimal Get(PersonType personType)
         {
             switch (personType)
             {

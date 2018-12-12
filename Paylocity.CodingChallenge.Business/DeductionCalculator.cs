@@ -16,19 +16,19 @@ namespace Paylocity.CodingChallenge.Business
             _discountCalculator = discountCalculator;
         }
 
-        public double CalculateDeductionPerPaycheck(List<Person> persons, int numberOfPaychecksPerYear)
+        public decimal CalculateDeductionPerPaycheck(List<Person> persons, int numberOfPaychecksPerYear)
         {
             return CalculateDeductionPerAnnum(persons) / numberOfPaychecksPerYear;
         }
 
-        public double CalculateDeductionPerAnnum(List<Person> persons)
+        public decimal CalculateDeductionPerAnnum(List<Person> persons)
         {
             return persons.Sum(person => CalculateDeductionWithDiscount(person));
         }
 
-        public double CalculateDeductionWithDiscount(Person person)
+        public decimal CalculateDeductionWithDiscount(Person person)
         {
-            return _annualDeductionRate.Get(person.Type) * (1 - _discountCalculator.GetDiscountRate(person));
+            return _annualDeductionRate.Get(person.Type) * (1 - (decimal)_discountCalculator.GetDiscountRate(person));
         }
     }
 

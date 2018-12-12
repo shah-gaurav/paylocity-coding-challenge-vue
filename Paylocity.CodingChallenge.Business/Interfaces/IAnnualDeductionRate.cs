@@ -7,6 +7,6 @@ namespace Paylocity.CodingChallenge.Business.Interfaces
 {
     public interface IAnnualDeductionRate
     {
-        double Get(PersonType personType);
+        decimal Get(PersonType personType);
     }
 }

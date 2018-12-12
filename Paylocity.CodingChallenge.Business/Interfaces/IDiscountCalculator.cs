@@ -7,6 +7,6 @@ namespace Paylocity.CodingChallenge.Business.Interfaces
 {
     public interface IDiscountCalculator
     {
-        double GetDiscountRate(Person person);
+        decimal GetDiscountRate(Person person);
     }
 }

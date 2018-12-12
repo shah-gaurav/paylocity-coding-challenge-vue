@@ -12,9 +12,9 @@ namespace Paylocity.CodingChallenge.Business.Tests
     [TestClass]
     public class DeductionCalculatorTests
     {
-        private const double ANNUAL_RATE = 10.0;
-        private const double DISCOUNT_RATE = 0.10;
-        private const double HUNDRED_PERCENT_DISCOUNT = 1.00;
+        private const decimal ANNUAL_RATE = 10.0M;
+        private const decimal DISCOUNT_RATE = 0.10M;
+        private const decimal HUNDRED_PERCENT_DISCOUNT = 1.00M;
         private const int NUMBER_OF_PAYCHECKS_PER_YEAR = 26;
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
 
             var discountCalculator = A.Fake<IDiscountCalculator>();
             A.CallTo(() => discountCalculator.GetDiscountRate(testPerson1)).Returns(DISCOUNT_RATE);
-            A.CallTo(() => discountCalculator.GetDiscountRate(testPerson2)).Returns(0.0);
+            A.CallTo(() => discountCalculator.GetDiscountRate(testPerson2)).Returns(0.0M);
 
             var objectUnderTest = new DeductionCalculator(annualDeductionRate, discountCalculator);
 
@@ -82,7 +82,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
             var deductionPerAnnum = objectUnderTest.CalculateDeductionPerAnnum(new List<Person>() { testPerson1, testPerson2 });
 
             // Assert
-            var expectedDeductionPerAnnum = (ANNUAL_RATE * (1 - DISCOUNT_RATE)) + (ANNUAL_RATE * (1 - 0.0));
+            var expectedDeductionPerAnnum = (ANNUAL_RATE * (1 - DISCOUNT_RATE)) + (ANNUAL_RATE * (1 - 0.0M));
             Assert.IsTrue(deductionPerAnnum == expectedDeductionPerAnnum);
         }
 
@@ -99,7 +99,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
 
             var discountCalculator = A.Fake<IDiscountCalculator>();
             A.CallTo(() => discountCalculator.GetDiscountRate(testPerson1)).Returns(DISCOUNT_RATE);
-            A.CallTo(() => discountCalculator.GetDiscountRate(testPerson2)).Returns(0.0);
+            A.CallTo(() => discountCalculator.GetDiscountRate(testPerson2)).Returns(0.0M);
 
             var objectUnderTest = new DeductionCalculator(annualDeductionRate, discountCalculator);
 
@@ -107,7 +107,7 @@ namespace Paylocity.CodingChallenge.Business.Tests
             var deductionPerPaycheck = objectUnderTest.CalculateDeductionPerPaycheck(new List<Person>() { testPerson1, testPerson2 }, NUMBER_OF_PAYCHECKS_PER_YEAR);
 
             // Assert
-            var expectedDeductionPerPaycheck = ((ANNUAL_RATE * (1 - DISCOUNT_RATE)) + (ANNUAL_RATE * (1 - 0.0))) / NUMBER_OF_PAYCHECKS_PER_YEAR;
+            var expectedDeductionPerPaycheck = ((ANNUAL_RATE * (1 - DISCOUNT_RATE)) + (ANNUAL_RATE * (1 - 0.0M))) / NUMBER_OF_PAYCHECKS_PER_YEAR;
             Assert.IsTrue(deductionPerPaycheck == expectedDeductionPerPaycheck);
         }
     }

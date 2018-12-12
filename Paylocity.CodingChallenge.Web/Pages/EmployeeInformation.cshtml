@@ -1,0 +1,91 @@
+﻿@page
+@model Paylocity.CodingChallenge.Web.Pages.EmployeeInformationModel
+@{
+    ViewData["Title"] = "EmployeeInformation";
+}
+
+<div class="text-center">
+    <h1>Employee Information</h1>
+    <p class="lead">Enter the employee's information below to calculate their benefits deduction</p>
+    <hr />
+</div>
+<form method="post">
+    <h4>Employee</h4>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label asp-for="Employee.Name">Name</label>
+            <input asp-for="Employee.Name" class="form-control" />
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Employee.YearlySalary">Yearly Salary</label>
+            <input asp-for="Employee.YearlySalary" class="form-control" />
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Employee.NumberOfPaychecksPerYear">Number Of Paychecks Per Year</label>
+            <input asp-for="Employee.NumberOfPaychecksPerYear" class="form-control" />
+        </div>
+    </div>
+    @if (Model.Employee.Dependents.Count > 0)
+    {
+        <h4>Dependents</h4>
+        for (int i = 0; i < Model.Employee.Dependents.Count; i++)
+        {
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Employee.Dependents[i].Name">Name</label>
+                    <input asp-for="Employee.Dependents[i].Name" class="form-control" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Employee.Dependents[i].Type">Type</label>
+                    <select asp-for="Employee.Dependents[i].Type" asp-items="Model.DependentTypeList" class="form-control"></select>
+                </div>
+            </div>
+        }
+    }
+    <hr />
+    <div class="form-row">
+        <div class="form-group col-md-12 text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Calculate Deductions</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.CalcuationResults != null)
+{
+    <h2 class="text-center">Calculation Results</h2>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th>Deduction Per Paycheck</th>
+                <th>Deduction Per Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Employee</td>
+                <td>@Html.DisplayFor(m => m.CalcuationResults.EmployeeDeductionPerPayCheck)</td>
+                <td>@Html.DisplayFor(m => m.CalcuationResults.EmployeeDeductionPerYear)</td>
+            </tr>
+            @if (Model.Employee.Dependents.Count > 0)
+            {
+                <tr>
+                    <td>Dependents</td>
+                    <td>@Html.DisplayFor(m => m.CalcuationResults.DependentsDeductionPerPayCheck)</td>
+                    <td>@Html.DisplayFor(m => m.CalcuationResults.DependentsDeductionPerYear)</td>
+                </tr>
+            }
+            <tr>
+                <td>Total</td>
+                <td>@Html.DisplayFor(m => m.CalcuationResults.TotalDeductionPerPayCheck)</td>
+                <td>@Html.DisplayFor(m => m.CalcuationResults.TotalDeductionPerYear)</td>
+            </tr>
+        </tbody>
+    </table>
+    <h5>Employee paycheck after deductions: @Model.EmployeePaycheckAfterDeductions.ToString("C")</h5>
+    <h5>Employee yearly pay after deductions: @Model.EmployeeYearlyPayAfterDeductions.ToString("C") </h5>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -9,7 +9,7 @@ namespace Paylocity.CodingChallenge.Business
 {
     public class DiscountByNameCalculator : IDiscountCalculator
     {
-        public double GetDiscountRate(Person person)
+        public decimal GetDiscountRate(Person person)
         {
             if (person?.Name?.ToLower().StartsWith("a") ?? false)
                 return Constants.TEN_PERCENT_DISCOUNT_RATE; // 10 percent discount rate

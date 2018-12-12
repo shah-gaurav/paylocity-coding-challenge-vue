@@ -7,8 +7,8 @@ namespace Paylocity.CodingChallenge.Business.Interfaces
 {
     public interface IDeductionCalculator
     {
-        double CalculateDeductionPerPaycheck(List<Person> persons, int numberOfPaychecksPerYear);
-        double CalculateDeductionPerAnnum(List<Person> persons);
-        double CalculateDeductionWithDiscount(Person person);
+        decimal CalculateDeductionPerPaycheck(List<Person> persons, int numberOfPaychecksPerYear);
+        decimal CalculateDeductionPerAnnum(List<Person> persons);
+        decimal CalculateDeductionWithDiscount(Person person);
     }
 }
