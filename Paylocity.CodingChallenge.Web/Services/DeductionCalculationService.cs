@@ -12,25 +12,34 @@ namespace Paylocity.CodingChallenge.Web.Services
     public class DeductionCalculationService : IDeductionCalculationService      
     {
         private readonly IDeductionCalculator _deductionCalculator;
-        private readonly IEmployeeToPersonListConverter _employeeToPersonListConverter;
 
-        public DeductionCalculationService(IDeductionCalculator deductionCalculator, IEmployeeToPersonListConverter employeeToPersonListConverter)
+        public DeductionCalculationService(IDeductionCalculator deductionCalculator)
         {
             _deductionCalculator = deductionCalculator;
-            _employeeToPersonListConverter = employeeToPersonListConverter;
         }
 
         public DeductionCalculationResults CalculateDeductions(Employee employee)
         {
-            List<Entities.Person> persons = _employeeToPersonListConverter.Convert(employee);
+            List<Entities.Person> persons = Converters.ConvertEmployeeToPersonList(employee);
+            decimal employeeDedudctionPerPayCheck = _deductionCalculator.CalculateDeductionPerPaycheck(persons.Where(p => p.Type == Entities.Enums.PersonType.Employee).ToList(), employee.NumberOfPaychecksPerYear);
+            decimal dependentsDeductionPerPayCheck = _deductionCalculator.CalculateDeductionPerPaycheck(persons.Where(p => p.Type != Entities.Enums.PersonType.Employee).ToList(), employee.NumberOfPaychecksPerYear);
+            decimal totalDeductionPerPayCheck = _deductionCalculator.CalculateDeductionPerPaycheck(persons, employee.NumberOfPaychecksPerYear);
+            decimal employeeDeductionPerYear = _deductionCalculator.CalculateDeductionPerAnnum(persons.Where(p => p.Type == Entities.Enums.PersonType.Employee).ToList());
+            decimal dependentDeductionPerYear = _deductionCalculator.CalculateDeductionPerAnnum(persons.Where(p => p.Type != Entities.Enums.PersonType.Employee).ToList());
+            decimal totalDeductionPerYear = _deductionCalculator.CalculateDeductionPerAnnum(persons);
+            decimal employeePaycheckAfterDeductions = (employee.YearlySalary / (decimal)employee.NumberOfPaychecksPerYear) - totalDeductionPerPayCheck;
+            decimal employeeYearlyPayAfterDeductions = employee.YearlySalary - totalDeductionPerYear;
+
             return new DeductionCalculationResults()
             {
-                EmployeeDeductionPerPayCheck = _deductionCalculator.CalculateDeductionPerPaycheck(persons.Where(p => p.Type == Entities.Enums.PersonType.Employee).ToList(), employee.NumberOfPaychecksPerYear),
-                DependentsDeductionPerPayCheck = _deductionCalculator.CalculateDeductionPerPaycheck(persons.Where(p => p.Type != Entities.Enums.PersonType.Employee).ToList(), employee.NumberOfPaychecksPerYear),
-                TotalDeductionPerPayCheck = _deductionCalculator.CalculateDeductionPerPaycheck(persons, employee.NumberOfPaychecksPerYear),
-                EmployeeDeductionPerYear = _deductionCalculator.CalculateDeductionPerAnnum(persons.Where(p => p.Type == Entities.Enums.PersonType.Employee).ToList()),
-                DependentsDeductionPerYear = _deductionCalculator.CalculateDeductionPerAnnum(persons.Where(p => p.Type != Entities.Enums.PersonType.Employee).ToList()),
-                TotalDeductionPerYear = _deductionCalculator.CalculateDeductionPerAnnum(persons)
+                EmployeeDeductionPerPayCheck = employeeDedudctionPerPayCheck,
+                DependentsDeductionPerPayCheck = dependentsDeductionPerPayCheck,
+                TotalDeductionPerPayCheck = totalDeductionPerPayCheck,
+                EmployeeDeductionPerYear = employeeDeductionPerYear,
+                DependentsDeductionPerYear = dependentDeductionPerYear,
+                TotalDeductionPerYear = totalDeductionPerYear,
+                EmployeePaycheckAfterDeductions = employeePaycheckAfterDeductions,
+                EmployeeYearlyPayAfterDeductions = employeeYearlyPayAfterDeductions
             };
         }
     }

@@ -82,8 +82,8 @@
             </tr>
         </tbody>
     </table>
-    <h5>Employee paycheck after deductions: @Model.EmployeePaycheckAfterDeductions.ToString("C")</h5>
-    <h5>Employee yearly pay after deductions: @Model.EmployeeYearlyPayAfterDeductions.ToString("C") </h5>
+    <h5>Employee paycheck after deductions: @Html.DisplayFor(m => m.CalcuationResults.EmployeePaycheckAfterDeductions)</h5>
+    <h5>Employee yearly pay after deductions: @Html.DisplayFor(m => m.CalcuationResults.EmployeeYearlyPayAfterDeductions) </h5>
 }
 
 @section Scripts {

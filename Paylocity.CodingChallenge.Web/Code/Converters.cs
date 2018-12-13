@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Paylocity.CodingChallenge.Entities.Enums;
+using Paylocity.CodingChallenge.Web.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Paylocity.CodingChallenge.Entities;
-using Paylocity.CodingChallenge.Entities.Enums;
-using Paylocity.CodingChallenge.Web.ViewModels;
 
 namespace Paylocity.CodingChallenge.Web.Code
 {
-    public class EmployeeToPersonListConverter : IEmployeeToPersonListConverter
+    public static class Converters
     {
-        public List<Entities.Person> Convert(Employee employee)
+        public static List<Entities.Person> ConvertEmployeeToPersonList(Employee employee)
         {
             var returnList = new List<Entities.Person>();
 
@@ -18,13 +17,13 @@ namespace Paylocity.CodingChallenge.Web.Code
 
             foreach (var dependent in employee.Dependents)
             {
-                returnList.Add(new Entities.Person() { Name = dependent.Name, Type = GetPersonTypeFromDependentType(dependent.Type) });
+                returnList.Add(new Entities.Person() { Name = dependent.Name, Type = ConvertDependentTypeToPersonType(dependent.Type) });
             }
 
             return returnList;
         }
 
-        private PersonType GetPersonTypeFromDependentType(DependentType type)
+        public static PersonType ConvertDependentTypeToPersonType(DependentType type)
         {
             switch (type)
             {

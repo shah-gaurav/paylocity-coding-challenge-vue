@@ -40,7 +40,6 @@ namespace Paylocity.CodingChallenge.Web
             services.AddScoped<IAnnualDeductionRate, AnnualDeductionRate>();
             services.AddScoped<IDiscountCalculator, DiscountByNameCalculator>();
             services.AddScoped<IDeductionCalculator, DeductionCalculator>();
-            services.AddScoped<IEmployeeToPersonListConverter, EmployeeToPersonListConverter>();
             services.AddScoped<IDeductionCalculationService, DeductionCalculationService>();
         }
 

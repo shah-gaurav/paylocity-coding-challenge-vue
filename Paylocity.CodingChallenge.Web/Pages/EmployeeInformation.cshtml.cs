@@ -16,16 +16,6 @@ namespace Paylocity.CodingChallenge.Web.Pages
         private const int NUMBER_OF_PAYCHECKS_PER_YEAR = 26;
         private readonly IDeductionCalculationService _deductionCalculationService;
 
-        public EmployeeInformationModel(IDeductionCalculationService deductionCalculationService)
-        {
-            _deductionCalculationService = deductionCalculationService;
-
-            foreach(var value in Enum.GetValues(typeof(DependentType)))
-            {
-                DependentTypeList.Add(new SelectListItem(value.ToString(), value.ToString()));
-            }
-        }
-
         [BindProperty]
         public Employee Employee { get; set; }
 
@@ -33,42 +23,60 @@ namespace Paylocity.CodingChallenge.Web.Pages
 
         public DeductionCalculationResults CalcuationResults { get; private set; }
 
-        public decimal EmployeePaycheckAfterDeductions { get; private set; }
-        public decimal EmployeeYearlyPayAfterDeductions { get; private set; }
+        public EmployeeInformationModel(IDeductionCalculationService deductionCalculationService)
+        {
+            _deductionCalculationService = deductionCalculationService;
 
+            PopulateDependentTypeList();
+        }
+
+        #region HTTP Actions
         public IActionResult OnGet(int? numberOfDependents)
         {
             if (numberOfDependents == null)
             {
                 return RedirectToPage("/Index");
             }
-            
-            Employee = new Employee();
 
-            Employee.YearlySalary = SALARY_PER_PAYCHECK * NUMBER_OF_PAYCHECKS_PER_YEAR;
-            Employee.NumberOfPaychecksPerYear = NUMBER_OF_PAYCHECKS_PER_YEAR;
-
-            for (int i = 0; i < numberOfDependents; i++)
-            {
-                Employee.Dependents.Add(new Dependent() { Type = (i == 0 ? DependentType.Spouse : DependentType.Child) });
-            }
+            Employee = CreateEmployeeViewModel(numberOfDependents);
 
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             CalcuationResults = _deductionCalculationService.CalculateDeductions(Employee);
 
-            EmployeePaycheckAfterDeductions = (Employee.YearlySalary / (decimal)Employee.NumberOfPaychecksPerYear) - CalcuationResults.TotalDeductionPerPayCheck;
-            EmployeeYearlyPayAfterDeductions = Employee.YearlySalary - CalcuationResults.TotalDeductionPerYear;
-
             return Page();
+        }
+        #endregion
+
+        private void PopulateDependentTypeList()
+        {
+            foreach (var value in Enum.GetValues(typeof(DependentType)))
+            {
+                DependentTypeList.Add(new SelectListItem(value.ToString(), value.ToString()));
+            }
+        }
+
+        private Employee CreateEmployeeViewModel(int? numberOfDependents)
+        {
+            var employee = new Employee();
+
+            employee.YearlySalary = SALARY_PER_PAYCHECK * NUMBER_OF_PAYCHECKS_PER_YEAR;
+            employee.NumberOfPaychecksPerYear = NUMBER_OF_PAYCHECKS_PER_YEAR;
+
+            for (int i = 0; i < numberOfDependents; i++)
+            {
+                employee.Dependents.Add(new Dependent() { Type = (i == 0 ? DependentType.Spouse : DependentType.Child) });
+            }
+
+            return employee;
         }
     }
 }
