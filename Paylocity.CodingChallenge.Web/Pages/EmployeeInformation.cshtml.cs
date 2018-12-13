@@ -13,8 +13,6 @@ namespace Paylocity.CodingChallenge.Web.Pages
 {
     public class EmployeeInformationModel : PageModel
     {
-        private const int SALARY_PER_PAYCHECK = 2000;
-        private const int NUMBER_OF_PAYCHECKS_PER_YEAR = 26;
         private readonly IDeductionCalculationService _deductionCalculationService;
 
         [BindProperty]
@@ -56,6 +54,7 @@ namespace Paylocity.CodingChallenge.Web.Pages
         }
         #endregion
 
+        #region Helper Methods
         private void PopulateDependentTypeList()
         {
             foreach (var value in Enum.GetValues(typeof(DependentType)))
@@ -68,8 +67,8 @@ namespace Paylocity.CodingChallenge.Web.Pages
         {
             var employee = new Employee();
 
-            employee.YearlySalary = SALARY_PER_PAYCHECK * NUMBER_OF_PAYCHECKS_PER_YEAR;
-            employee.NumberOfPaychecksPerYear = NUMBER_OF_PAYCHECKS_PER_YEAR;
+            employee.YearlySalary = Constants.SALARY_PER_PAYCHECK * Constants.NUMBER_OF_PAYCHECKS_PER_YEAR;
+            employee.NumberOfPaychecksPerYear = Constants.NUMBER_OF_PAYCHECKS_PER_YEAR;
 
             for (int i = 0; i < numberOfDependents; i++)
             {
@@ -78,5 +77,7 @@ namespace Paylocity.CodingChallenge.Web.Pages
 
             return employee;
         }
+        #endregion
+
     }
 }

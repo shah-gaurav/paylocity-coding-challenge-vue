@@ -34,6 +34,7 @@ namespace Paylocity.CodingChallenge.Web.Pages
         }
         #endregion
 
+        #region Helper Methods
         private void PopulateDependentNumberList()
         {
             for (var i = 0; i <= 10; i++)
@@ -41,5 +42,6 @@ namespace Paylocity.CodingChallenge.Web.Pages
                 DependentNumberList.Add(new SelectListItem($"{(i == 0 ? "No" : i.ToString())} Dependent{(i == 1 ? "" : "s")}", i.ToString()));
             }
         }
+        #endregion
     }
 }
