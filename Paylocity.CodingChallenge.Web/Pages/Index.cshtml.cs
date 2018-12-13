@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Paylocity.CodingChallenge.Web.Code;
 
 namespace Paylocity.CodingChallenge.Web.Pages
 {
@@ -28,7 +29,7 @@ namespace Paylocity.CodingChallenge.Web.Pages
                 return Page();
             }
 
-            return RedirectToPage("/EmployeeInformation", new { NumberOfDependents = NumberOfDependents });
+            return RedirectToPage(Constants.EMPLOYEE_INFORMATION_PAGE, new { NumberOfDependents = NumberOfDependents });
 
         }
         #endregion

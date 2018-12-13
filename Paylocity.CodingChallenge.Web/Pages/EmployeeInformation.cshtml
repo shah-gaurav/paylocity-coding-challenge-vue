@@ -1,7 +1,7 @@
 ﻿@page
 @model Paylocity.CodingChallenge.Web.Pages.EmployeeInformationModel
 @{
-    ViewData["Title"] = "EmployeeInformation";
+    ViewData["Title"] = "Employee Information";
 }
 
 <div class="text-center">
@@ -49,42 +49,6 @@
         </div>
     </div>
 </form>
-
-@if (Model.CalcuationResults != null)
-{
-    <h2 class="text-center">Calculation Results</h2>
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th></th>
-                <th>Deduction Per Paycheck</th>
-                <th>Deduction Per Year</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Employee</td>
-                <td>@Html.DisplayFor(m => m.CalcuationResults.EmployeeDeductionPerPayCheck)</td>
-                <td>@Html.DisplayFor(m => m.CalcuationResults.EmployeeDeductionPerYear)</td>
-            </tr>
-            @if (Model.Employee.Dependents.Count > 0)
-            {
-                <tr>
-                    <td>Dependents</td>
-                    <td>@Html.DisplayFor(m => m.CalcuationResults.DependentsDeductionPerPayCheck)</td>
-                    <td>@Html.DisplayFor(m => m.CalcuationResults.DependentsDeductionPerYear)</td>
-                </tr>
-            }
-            <tr>
-                <td>Total</td>
-                <td>@Html.DisplayFor(m => m.CalcuationResults.TotalDeductionPerPayCheck)</td>
-                <td>@Html.DisplayFor(m => m.CalcuationResults.TotalDeductionPerYear)</td>
-            </tr>
-        </tbody>
-    </table>
-    <h5>Employee paycheck after deductions: @Html.DisplayFor(m => m.CalcuationResults.EmployeePaycheckAfterDeductions)</h5>
-    <h5>Employee yearly pay after deductions: @Html.DisplayFor(m => m.CalcuationResults.EmployeeYearlyPayAfterDeductions) </h5>
-}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

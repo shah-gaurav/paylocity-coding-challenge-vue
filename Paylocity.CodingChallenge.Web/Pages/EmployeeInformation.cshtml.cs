@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Paylocity.CodingChallenge.Web.Code;
 using Paylocity.CodingChallenge.Web.Services;
 using Paylocity.CodingChallenge.Web.ViewModels;
 
@@ -21,8 +22,6 @@ namespace Paylocity.CodingChallenge.Web.Pages
 
         public List<SelectListItem> DependentTypeList { get; } = new List<SelectListItem>();
 
-        public DeductionCalculationResults CalcuationResults { get; private set; }
-
         public EmployeeInformationModel(IDeductionCalculationService deductionCalculationService)
         {
             _deductionCalculationService = deductionCalculationService;
@@ -35,7 +34,7 @@ namespace Paylocity.CodingChallenge.Web.Pages
         {
             if (numberOfDependents == null)
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage(Constants.INDEX_PAGE);
             }
 
             Employee = CreateEmployeeViewModel(numberOfDependents);
@@ -50,9 +49,10 @@ namespace Paylocity.CodingChallenge.Web.Pages
                 return Page();
             }
 
-            CalcuationResults = _deductionCalculationService.CalculateDeductions(Employee);
+            // Store the results in temp data so that the results page can retrieve them
+            TempData.Set(Constants.RESULTS_TEMP_DATA_KEY, _deductionCalculationService.CalculateDeductions(Employee));
 
-            return Page();
+            return RedirectToPage(Constants.RESULTS_PAGE);
         }
         #endregion
 
