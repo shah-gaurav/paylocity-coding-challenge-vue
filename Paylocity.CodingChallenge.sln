@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paylocity.CodingChallenge.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paylocity.CodingChallenge.Business.Tests", "Paylocity.CodingChallenge.Business.Tests\Paylocity.CodingChallenge.Business.Tests.csproj", "{B99F517E-7B78-49EC-80FE-EC5F53E1FE87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paylocity.CodingChallenge.Web", "Paylocity.CodingChallenge.Web\Paylocity.CodingChallenge.Web.csproj", "{FC43B27D-D6BC-48D4-95B6-000A3245B306}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paylocity.CodingChallenge.Web", "Paylocity.CodingChallenge.Web\Paylocity.CodingChallenge.Web.csproj", "{FC43B27D-D6BC-48D4-95B6-000A3245B306}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EA795C6-8E97-46F3-8F99-1F5C495FE6DF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
