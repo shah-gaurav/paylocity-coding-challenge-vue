@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "vue": "^2.5.21",
+    "vue-loading-overlay": "^3.1.1",
     "vue2-filters": "^0.4.1",
     "vuetify": "^1.3.0"
   },

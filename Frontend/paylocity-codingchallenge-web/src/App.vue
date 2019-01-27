@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <loading :active.sync="isLoading"></loading>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
         <span>Paylocity</span>&nbsp;
@@ -64,26 +65,32 @@
 
 <script>
 import Results from './components/Results'
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: "App",
   components: {
-    Results
+    Results,
+    Loading
   },
-  data: function() {
+  data: function () {
     return {
       name: "",
       yearlySalary: 52000,
       numberOfPaychecksPerYear: 26,
       requiredRules: [v => !!v || "Field is required"],
       error: null,
-      calculationResults: null
+      calculationResults: null,
+      isLoading: false
     };
   },
   methods: {
-    calculateDeductions: async function() {
+    calculateDeductions: async function () {
       if (this.$refs.form.validate()) {
         try {
+          this.isLoading = true;
           var response = await this.$axios.post("/api/benefitscalculator", {
             Name: this.name,
             YearlySalary: this.yearlySalary,
@@ -93,6 +100,7 @@ export default {
         } catch (error) {
           this.error = error;
         }
+        this.isLoading = false;
       }
     }
   }
