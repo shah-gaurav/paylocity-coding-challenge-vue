@@ -5,7 +5,7 @@
         <h4 class="headline">Calculation Results</h4>
       </v-flex>
     </v-layout>
-    <v-layout row justify-center>
+    <v-layout row wrap justify-center>
       <v-flex xs12 md3>
         <v-card>
           <v-card-title>

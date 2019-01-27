@@ -48,9 +48,30 @@
             </v-flex>
           </v-layout>
         </v-container>
-
         <v-container>
           <v-layout justify-center>
+            <v-flex xs12 md9>
+              <h4 class="headline">Dependents
+                <v-btn small flat fab icon class="primary" @click="addDependent">
+                  <v-icon>add</v-icon>
+                </v-btn>
+              </h4>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap justify-center v-for="(dependent, index) in dependents" :key="index">
+            <v-flex xs12 md3>
+              <v-text-field label="Name" v-model="dependent.name" :rules="requiredRules"></v-text-field>
+            </v-flex>
+            <v-flex xs12 md3>
+              <v-select :items="dependentTypes" label="Type" v-model="dependent.type" :rules="requiredRules"></v-select>
+            </v-flex>
+            <v-flex xs12 md3 text-md-center>
+              <v-btn @click="removeDependent(index)">Remove</v-btn>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-container>
+          <v-layout row wrap justify-center>
             <v-flex xs12 md3>
               <v-btn block class="primary" @click="calculateDeductions">Calculate Deductions</v-btn>
             </v-flex>
@@ -80,6 +101,8 @@ export default {
       name: "",
       yearlySalary: 52000,
       numberOfPaychecksPerYear: 26,
+      dependents: [],
+      dependentTypes: ['Spouse', 'Child'],
       requiredRules: [v => !!v || "Field is required"],
       error: null,
       calculationResults: null,
@@ -87,6 +110,12 @@ export default {
     };
   },
   methods: {
+    addDependent: function () {
+      this.dependents.push({ name: '', type: '' });
+    },
+    removeDependent: function (index) {
+      this.dependents.splice(index, 1)
+    },
     calculateDeductions: async function () {
       if (this.$refs.form.validate()) {
         try {
@@ -94,7 +123,8 @@ export default {
           var response = await this.$axios.post("/api/benefitscalculator", {
             Name: this.name,
             YearlySalary: this.yearlySalary,
-            NumberOfPaychecksPerYear: this.numberOfPaychecksPerYear
+            NumberOfPaychecksPerYear: this.numberOfPaychecksPerYear,
+            Dependents: this.dependents
           });
           this.calculationResults = response.data;
         } catch (error) {
