@@ -64,7 +64,6 @@ export default {
   components: {
     Dependent
   },
-  props: ["employee"],
   data: function () {
     return {
       requiredRules: [v => !!v || "Field is required"]
