@@ -1,26 +1,27 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import { getField, updateField } from 'vuex-map-fields';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
   state: {
-    employee: {
-      name: '',
-      yearlySalary: 52000,
-      numberOfPaychecksPerYear: 26,
-      dependents: []
-    },
+    name: '',
+    yearlySalary: 52000,
+    numberOfPaychecksPerYear: 26,
+    dependents: [],
     isLoading: false,
     results: null,
     error: null
   },
   mutations: {
     ADD_DEPENDENT(state) {
-      state.employee.dependents.push({ name: '', type: '' });
+      state.dependents.push({ name: '', type: '' });
     },
     REMOVE_DEPENDENT(state, index) {
-      state.employee.dependents.splice(index, 1);
+      state.dependents.splice(index, 1);
     },
     START_LOADING(state) {
       state.isLoading = true;
@@ -36,7 +37,8 @@ export default new Vuex.Store({
     },
     SET_ERROR(state, error) {
       state.error = error;
-    }
+    },
+    updateField
   },
   actions: {
     addDependent({ commit }) {
@@ -51,15 +53,18 @@ export default new Vuex.Store({
       commit('CLEAR_RESULTS');
       try {
         var response = await window.axios.post('/api/benefitscalculator', {
-          Name: state.employee.name,
-          YearlySalary: state.employee.yearlySalary,
-          NumberOfPaychecksPerYear: state.employee.numberOfPaychecksPerYear,
-          Dependents: state.employee.dependents
+          Name: state.name,
+          YearlySalary: state.yearlySalary,
+          NumberOfPaychecksPerYear: state.numberOfPaychecksPerYear,
+          Dependents: state.dependents
         });
         commit('SET_RESULTS', response.data);
       } catch (error) {
         commit('SET_ERROR', error);
       }
     }
+  },
+  getters: {
+    getField
   }
 });

@@ -8,12 +8,12 @@
       </v-layout>
       <v-layout row wrap justify-center>
         <v-flex xs12 md3>
-          <v-text-field label="Name" v-model="employee.name" :rules="requiredRules"></v-text-field>
+          <v-text-field label="Name" v-model="name" :rules="requiredRules"></v-text-field>
         </v-flex>
         <v-flex xs12 md3>
           <v-text-field
             label="Yearly Salary"
-            v-model="employee.yearlySalary"
+            v-model="yearlySalary"
             :rules="requiredRules"
             type="number"
           ></v-text-field>
@@ -21,7 +21,7 @@
         <v-flex xs12 md3>
           <v-text-field
             label="Number of Paychecks per Year"
-            v-model="employee.numberOfPaychecksPerYear"
+            v-model="numberOfPaychecksPerYear"
             :rules="requiredRules"
             type="number"
           ></v-text-field>
@@ -39,7 +39,7 @@
         </v-flex>
       </v-layout>
       <Dependent
-        v-for="(dependent, index) in employee.dependents"
+        v-for="(dependent, index) in dependents"
         :key="index"
         :dependent="dependent"
         :index="index"
@@ -58,6 +58,7 @@
 <script>
 import Dependent from './Dependent';
 import { mapActions } from 'vuex';
+import { mapFields, mapMultiRowFields } from 'vuex-map-fields';
 
 export default {
   components: {
@@ -78,6 +79,14 @@ export default {
         this.$store.commit('STOP_LOADING')
       }
     }
+  },
+  computed: {
+    ...mapFields([
+      'name',
+      'yearlySalary',
+      'numberOfPaychecksPerYear'
+    ]),
+    ...mapMultiRowFields(['dependents'])
   }
 }
 </script>
