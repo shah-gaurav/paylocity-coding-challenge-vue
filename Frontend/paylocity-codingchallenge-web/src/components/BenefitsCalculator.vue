@@ -11,7 +11,7 @@
       </v-layout>
     </v-container>
 
-    <Employee :employee="employee"/>
+    <Employee />
 
     <Results :results="results"/>
   </v-content>
